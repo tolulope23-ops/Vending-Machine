@@ -164,8 +164,8 @@ const keyPadInput = () => {
             `);
                 return;
             }
-            // If the backspace(>) button is clicked, its removes characters from the back
-            if (btnValue === ">") {
+            // If the backspace(x) button is clicked, its removes characters from the back
+            if (btnValue === "x") {
                 // Checks which input we’re editing based on stage
                 if (!isCheckoutStage) {
                     // if its product selection stage
@@ -190,8 +190,8 @@ const keyPadInput = () => {
                 return;
             }
             ;
-            // If the backspace(>>) button is clicked, its clears all input and reset.
-            if (btnValue === ">>") {
+            // If the backspace(CE) button is clicked, its clears all input and reset.
+            if (btnValue === "CE") {
                 currentBtnInput = "";
                 userPaysInput = "";
                 slotSelected = null;
