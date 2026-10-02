@@ -1,7 +1,9 @@
 ﻿## Vending Machine
 
 ## Overview  
-A fully interactive web-based **Vending Machine** application that simulates a real-world vending experience. The system allows users to browse products, select items using a keypad interface, increase quantities, complete simulated payments, and receive dispensed products visually on-screen.
+A fully interactive web-based **Vending Machine** application that simulates a real-world vending experience.
+
+The system allows users to browse products, select items using a keypad interface, increase quantities, complete simulated payments, and receive dispensed products visually on-screen.
 
 The application also includes an Admin Dashboard where products can be added, updated, and managed dynamically using browser local storage without requiring a backend or database.
  
