@@ -9,17 +9,17 @@ The application also includes an Admin Dashboard where products can be added, up
  
 
 ## Features
-Interactive vending machine UI with realistic structure and layout
-Product selection using keypad slot codes (e.g. A1, B2)
-Checkout and payment simulation flow
-Quantity increment support for selected products
-Dynamic product rendering from localStorage
-Admin inventory management system
-Image upload support for vending products
-Category-based product organization
-Product dispense tray animation
-Persistent storage using browser localStorage
-Responsive and modern UI design
+- Interactive vending machine UI with realistic structure and layout
+- Product selection using keypad slot codes (e.g. A1, B2)
+- Checkout and payment simulation flow
+- Quantity increment support for selected products
+- Dynamic product rendering from localStorage
+- Admin inventory management system
+- Image upload support for vending products
+- Category-based product organization
+- Product dispense animation
+- Persistent storage using browser localStorage
+- Responsive and modern UI design
 
 ## Tech Stack
 - **TypeScript (ES6)** – Core app logic and vending machine flow  
