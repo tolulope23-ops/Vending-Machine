@@ -9,6 +9,8 @@ const alphaButtons = document.querySelectorAll("#alpha-num-btn .alpha") as NodeL
 const checkout = document.getElementById("check")as HTMLButtonElement;
 const tray = document.getElementById("dispensed-items") as HTMLDivElement;
 const addProductform = document.getElementById("addProductform") as HTMLFormElement;
+const plusBtn = document.getElementById("plus") as HTMLButtonElement;
+
 
 //Admin button stocking up products.
 const saveBtn = document.getElementById("saveToStock") as HTMLButtonElement;
@@ -208,33 +210,33 @@ const keyPadInput = () => {
             return;
         }
 
-// If the backspace(>) button is clicked, its removes characters from the back
-           if (btnValue === ">") {
+// If the backspace(x) button is clicked, its removes characters from the back
+           if (btnValue === "x") {
 // Checks which input we’re editing based on stage
                 if (!isCheckoutStage) {
 // if its product selection stage
                     currentBtnInput = currentBtnInput.slice(0, -1);
 
                     if (currentBtnInput.length === 0) {
-                    updateDisplay(`Input cleared... <br> Select Product...`);
+                        updateDisplay(`Input cleared... <br> Select Product...`);
                     } else {
-                    updateDisplay(`Current input: ${currentBtnInput}`);
+                        updateDisplay(`Current input: ${currentBtnInput}`);
                     }
 // If its checkout(payment input) stage
                 } else {
                     userPaysInput = userPaysInput.slice(0, -1);
 
                     if (userPaysInput.length === 0) {
-                    updateDisplay(`Enter amount to pay.`);
+                        updateDisplay(`Enter amount to pay.`);
                     } else {
-                    updateDisplay(`Amount entered: ${formatCurrency(Number(userPaysInput))}`);
+                        updateDisplay(`Amount entered: ${formatCurrency(Number(userPaysInput))}`);
                     }
                 }
                 return;
             };
 
-// If the backspace(>>) button is clicked, its clears all input and reset.
-            if(btnValue === ">>"){
+// If the backspace(CE) button is clicked, its clears all input and reset.
+            if(btnValue === "CE"){
                 currentBtnInput = "";
                 userPaysInput = "";
                 slotSelected = null;
@@ -314,6 +316,7 @@ const processPayment = () => {
         isCheckoutStage = true;
         checkout.innerHTML = "Pay";
         disableButton();
+        disableIncreaseQuantity();
 
         total = calculateTotalPrice(slotSelected.slotCode, selectedProductQty);
 
@@ -343,7 +346,8 @@ const processPayment = () => {
         updateDisplay(`
             Payment Successful! <br>
             ${slotSelected.product.name} dispensed. <br>
-            Change: ${formatCurrency(userPays - total)}
+            Change: ${formatCurrency(userPays - total)} <br>
+            Thank you.
         `);
 
         slotSelected.quantity -= selectedProductQty;
@@ -365,13 +369,14 @@ const processPayment = () => {
  
             setTimeout(() => {
                 img.style.transform = "translateY(0)";
-            }, 200);
+            }, 300);
 
 //user takes product after dispensed.
             setTimeout(() => {
                 tray.removeChild(img);
                 updateDisplay("Select a product...");
                 enableButton()
+                enableIncreaseQuantity()
             }, 5000);
         };
     }
@@ -407,67 +412,105 @@ const disableButton = () =>{
 const enableButton = () =>{
     alphaButtons.forEach(btn =>{btn.disabled = false;})
 };
-    
+   
+//disable the increase quantity button
+const disableIncreaseQuantity = () => {
+    plusBtn.disabled = true
+};
+
+//enable the increase quantity button
+const enableIncreaseQuantity = () => {
+    plusBtn.disabled = false
+};
+
+
 displayProducts();
 keyPadInput();
 enableButton();
 
 
-//For menu icon on the nav bar to toggle between admin and vending machine
+// For menu icon on the nav bar to toggle between Admin, Vending Machine and How It Works
+
 const menuIcon = document.getElementById("menu-icon") as HTMLElement;
 const menuList = document.getElementById("menu-list") as HTMLElement;
-const adminBtn = document.getElementById("admin-btn") as HTMLButtonElement;
-const vendingBtn = document.getElementById("vending-btn") as HTMLButtonElement;
+
+const adminBtn = document.getElementById("admin-btn") as HTMLLIElement;
+const vendingBtn = document.getElementById("vending-btn") as HTMLLIElement;
+const howItWorksBtn = document.getElementById("how-it-works-btn") as HTMLLIElement;
 
 const adminDiv = document.getElementById("admin") as HTMLDivElement;
 const vendingDiv = document.getElementById("vending") as HTMLDivElement;
+const howItWorksDiv = document.getElementById("how-it-works") as HTMLDivElement;
 
-//Ensures elements exist before attaching event listeners
-if (menuIcon && menuList && adminBtn && vendingBtn && adminDiv && vendingDiv) {
+const backToVendingBtn = document.getElementById("back-to-vending") as HTMLButtonElement;
 
-  // Show Admin dashboard
-  adminBtn.addEventListener("click", () => {
-    adminDiv.style.display = "block";
-    vendingDiv.style.display = "none";
-    menuList.classList.add("hidden");
-  });
+// Ensures all required elements exist before attaching event listeners
+if (
+    menuIcon &&
+    menuList &&
+    adminBtn &&
+    vendingBtn &&
+    howItWorksBtn &&
+    adminDiv &&
+    vendingDiv &&
+    howItWorksDiv &&
+    backToVendingBtn
+) {
 
-  // Show Vending dashboard
-  vendingBtn.addEventListener("click", () => {
-    vendingDiv.style.display = "block";
-    adminDiv.style.display = "none";
-    menuList.classList.add("hidden");
-  });
+    // Function to show only one section at a time
+    const showSection = (section: HTMLElement) => {
 
-  // Hide menu if user clicks anywhere outside it
+        adminDiv.style.display = "none";
+        vendingDiv.style.display = "none";
+        howItWorksDiv.style.display = "none";
 
-  // Toggle menu visibility
+        section.style.display = "block";
+
+        // Close menu after selecting an option
+        menuList.classList.add("hidden");
+    };
+
+
+    // Show Admin dashboard
+    adminBtn.addEventListener("click", () => {
+        showSection(adminDiv);
+    });
+
+
+    // Show Vending dashboard
+    vendingBtn.addEventListener("click", () => {
+        showSection(vendingDiv);
+    });
+
+
+    // Show How It Works page
+    howItWorksBtn.addEventListener("click", () => {
+        showSection(howItWorksDiv);
+    });
+
+
+    // Back to Vending button on How It Works page
+    backToVendingBtn.addEventListener("click", () => {
+        showSection(vendingDiv);
+    });
+
+
+    // Toggle menu visibility
     menuIcon.addEventListener("click", (e) => {
         e.stopPropagation();
+
         menuList.classList.toggle("hidden");
     });
 
-    // Prevent menu clicks from bubbling
+
+    // Prevent clicks inside the menu from closing it immediately
     menuList.addEventListener("click", (e) => {
         e.stopPropagation();
     });
 
-     // Show Admin dashboard
-    adminBtn.addEventListener("click", () => {
-        adminDiv.style.display = "block";
-        vendingDiv.style.display = "none";
-        menuList.classList.add("hidden");
-    });
 
-    // Show Vending dashboard
-    vendingBtn.addEventListener("click", () => {
-        vendingDiv.style.display = "block";
-        adminDiv.style.display = "none";
-        menuList.classList.add("hidden");
-    });
-
-    // Hide menu if user clicks anywhere outside it
+    // Close menu when user clicks anywhere outside it
     document.addEventListener("click", () => {
         menuList.classList.add("hidden");
     });
-};
+}
