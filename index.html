@@ -20,6 +20,7 @@
                 <i class="bi bi-list" id="menu-icon"></i>
                 <ul id="menu-list" class="hidden">
                 <li id="admin-btn">Admin</li>
+                <li id="how-it-works-btn">How It Works</li>
                 <li id="vending-btn">Vending</li>
                 </ul>
             </div>
@@ -116,7 +117,7 @@
                         <button class="btn btn-outline-light">9</button>
 
                         <button class="btn btn-outline-light">CE</button>
-                        <button class="btn btn-outline-light">+</button>
+                        <button id="plus" class="btn btn-outline-light">+</button>
                         <button class="btn btn-outline-light">0</button>
                         <button class="btn btn-outline-light">x</button>
                     </div>
@@ -129,8 +130,98 @@
             </div>
         </div>
 
-    </div> 
-    <!-- <img src="./images/Coca-cola.png" alt="" srcset=""> -->
+<!-- How It Works -->
+        <div id="how-it-works" class="admin-vending">
+
+            <div class="how-it-works-header">
+                <h2>How It Works</h2>
+                <p>
+                    Follow these simple steps to purchase a product
+                    from Rae Vending Machine.
+                </p>
+            </div>
+
+            <div class="steps-container">
+
+                <!-- Step 1 -->
+            <div class="step-card">
+                <div class="step-number">1</div>
+
+                <div class="step-content">
+                    <h3>Select a Product</h3>
+                    <p>
+                        Select a product directly from the screen, or 
+                        Use the keypad to enter the slot code of the product
+                        you want, such as A1, B2 or C3.
+                    </p>
+                </div>
+            </div>
+
+                <!-- Step 2 -->
+            <div class="step-card">
+                <div class="step-number">2</div>
+
+                <div class="step-content">
+                    <h3>Check Your Selection</h3>
+                    <p>
+                        The display will show the selected product,
+                        its price, and the quantity you want to buy.
+                        
+                        Use the <strong>+</strong> button to increase
+                        the quantity.
+                    </p>
+                </div>
+            </div>
+
+                <!-- Step 3 -->
+            <div class="step-card">
+                <div class="step-number">3</div>
+
+                <div class="step-content">
+                    <h3>Proceed to Checkout</h3>
+                    <p>
+                        Click the <strong>Checkout</strong> button.
+                        The machine will display the total amount
+                        required for your selected product.
+                    </p>
+                </div>
+            </div>
+
+
+                <!-- Step 4 -->
+            <div class="step-card">
+                <div class="step-number">4</div>
+
+                <div class="step-content">
+                    <h3>Enter Your Payment</h3>
+                    <p>
+                        Enter the amount you want to pay using the
+                        keypad, then click <strong>Pay</strong>.
+                        Your payment must cover the total price.
+                    </p>
+                </div>
+            </div>
+
+                 <!-- Step 5 -->
+            <div class="step-card">
+                <div class="step-number">5</div>
+
+                <div class="step-content">
+                    <h3>Collect Your Product</h3>
+                    <p>
+                        Your product will be dispensed.
+                        If you paid more than the total amount, your
+                        change will be displayed on the screen.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <button id="back-to-vending" class="btn btn-outline-light">
+            <i class="bi bi-arrow-left"></i>
+            Back to Vending
+        </button>
+    </div>
     <script type="module" src="./dist/index.js"></script>
 </body>
 </html>
