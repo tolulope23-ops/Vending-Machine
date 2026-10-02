@@ -7,6 +7,7 @@ const alphaButtons = document.querySelectorAll("#alpha-num-btn .alpha");
 const checkout = document.getElementById("check");
 const tray = document.getElementById("dispensed-items");
 const addProductform = document.getElementById("addProductform");
+const plusBtn = document.getElementById("plus");
 //Admin button stocking up products.
 const saveBtn = document.getElementById("saveToStock");
 //Function to saves default products, new or updated product by the admin to local storage.
@@ -271,6 +272,7 @@ const processPayment = () => {
         isCheckoutStage = true;
         checkout.innerHTML = "Pay";
         disableButton();
+        disableIncreaseQuantity();
         total = calculateTotalPrice(slotSelected.slotCode, selectedProductQty);
         updateDisplay(`<b>Checkout</b> <br>
             Slot: ${slotSelected.slotCode}<br>
@@ -297,7 +299,8 @@ const processPayment = () => {
         updateDisplay(`
             Payment Successful! <br>
             ${slotSelected.product.name} dispensed. <br>
-            Change: ${formatCurrency(userPays - total)}
+            Change: ${formatCurrency(userPays - total)} <br>
+            Thank you.
         `);
         slotSelected.quantity -= selectedProductQty;
         slotSelected.soldCount += selectedProductQty;
@@ -313,12 +316,13 @@ const processPayment = () => {
             img.style.transform = "translateY(-20px)";
             setTimeout(() => {
                 img.style.transform = "translateY(0)";
-            }, 200);
+            }, 300);
             //user takes product after dispensed.
             setTimeout(() => {
                 tray.removeChild(img);
                 updateDisplay("Select a product...");
                 enableButton();
+                enableIncreaseQuantity();
             }, 5000);
         }
         ;
@@ -350,55 +354,73 @@ const disableButton = () => {
 const enableButton = () => {
     alphaButtons.forEach(btn => { btn.disabled = false; });
 };
+//disable the increase quantity button
+const disableIncreaseQuantity = () => {
+    plusBtn.disabled = true;
+};
+//enable the increase quantity button
+const enableIncreaseQuantity = () => {
+    plusBtn.disabled = false;
+};
 displayProducts();
 keyPadInput();
 enableButton();
-//For menu icon on the nav bar to toggle between admin and vending machine
+// For menu icon on the nav bar to toggle between Admin, Vending Machine and How It Works
 const menuIcon = document.getElementById("menu-icon");
 const menuList = document.getElementById("menu-list");
 const adminBtn = document.getElementById("admin-btn");
 const vendingBtn = document.getElementById("vending-btn");
+const howItWorksBtn = document.getElementById("how-it-works-btn");
 const adminDiv = document.getElementById("admin");
 const vendingDiv = document.getElementById("vending");
-//Ensures elements exist before attaching event listeners
-if (menuIcon && menuList && adminBtn && vendingBtn && adminDiv && vendingDiv) {
+const howItWorksDiv = document.getElementById("how-it-works");
+const backToVendingBtn = document.getElementById("back-to-vending");
+// Ensures all required elements exist before attaching event listeners
+if (menuIcon &&
+    menuList &&
+    adminBtn &&
+    vendingBtn &&
+    howItWorksBtn &&
+    adminDiv &&
+    vendingDiv &&
+    howItWorksDiv &&
+    backToVendingBtn) {
+    // Function to show only one section at a time
+    const showSection = (section) => {
+        adminDiv.style.display = "none";
+        vendingDiv.style.display = "none";
+        howItWorksDiv.style.display = "none";
+        section.style.display = "block";
+        // Close menu after selecting an option
+        menuList.classList.add("hidden");
+    };
     // Show Admin dashboard
     adminBtn.addEventListener("click", () => {
-        adminDiv.style.display = "block";
-        vendingDiv.style.display = "none";
-        menuList.classList.add("hidden");
+        showSection(adminDiv);
     });
     // Show Vending dashboard
     vendingBtn.addEventListener("click", () => {
-        vendingDiv.style.display = "block";
-        adminDiv.style.display = "none";
-        menuList.classList.add("hidden");
+        showSection(vendingDiv);
     });
-    // Hide menu if user clicks anywhere outside it
+    // Show How It Works page
+    howItWorksBtn.addEventListener("click", () => {
+        showSection(howItWorksDiv);
+    });
+    // Back to Vending button on How It Works page
+    backToVendingBtn.addEventListener("click", () => {
+        showSection(vendingDiv);
+    });
     // Toggle menu visibility
     menuIcon.addEventListener("click", (e) => {
         e.stopPropagation();
         menuList.classList.toggle("hidden");
     });
-    // Prevent menu clicks from bubbling
+    // Prevent clicks inside the menu from closing it immediately
     menuList.addEventListener("click", (e) => {
         e.stopPropagation();
     });
-    // Show Admin dashboard
-    adminBtn.addEventListener("click", () => {
-        adminDiv.style.display = "block";
-        vendingDiv.style.display = "none";
-        menuList.classList.add("hidden");
-    });
-    // Show Vending dashboard
-    vendingBtn.addEventListener("click", () => {
-        vendingDiv.style.display = "block";
-        adminDiv.style.display = "none";
-        menuList.classList.add("hidden");
-    });
-    // Hide menu if user clicks anywhere outside it
+    // Close menu when user clicks anywhere outside it
     document.addEventListener("click", () => {
         menuList.classList.add("hidden");
     });
 }
-;
