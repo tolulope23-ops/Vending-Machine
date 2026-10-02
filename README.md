@@ -6,7 +6,9 @@ A fully interactive web-based **Vending Machine** application that simulates a r
 The system allows users to browse products, select items using a keypad interface, increase quantities, complete simulated payments, and receive dispensed products visually on-screen.
 
 The application also includes an Admin Dashboard where products can be added, updated, and managed dynamically using browser local storage without requiring a backend or database.
- 
+
+ ## 📸 Preview
+![Vending Machine Screenshot](./vending-preview.png)
 
 ## Features
 - Interactive vending machine UI with realistic structure and layout
@@ -44,7 +46,5 @@ npm install
 npx tsc
 ```
 
-## 📸 Preview
-![Vending Machine Screenshot](./vending-preview.png)
 
 
